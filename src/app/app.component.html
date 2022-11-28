@@ -1,0 +1,142 @@
+<div class="row">
+  <div class="col">
+    <p></p>
+  </div>
+  <div class="col">
+    <div class="add-form-field">
+      <button
+        (click)="addNewIssueFields()"
+        mat-button
+        matTooltip="Add Issue Fields"
+      >
+        Add Fields
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="issue-fields-content"></div> -->
+<form [formGroup]="issueFieldsForm">
+  <div formArrayName="issueFields">
+    <ng-container
+      *ngFor="
+        let issueField of getIssueFormFields().controls;
+        let issueFieldIndex = index
+      "
+    >
+      <div class="issue-fields-content">
+        <div class="row header">
+          <div class="col">
+            <p>Add New Issue Field</p>
+          </div>
+          <!-- <div class="col">
+            </div> -->
+        </div>
+        <div class="issue-fields">
+          <ng-container [formGroupName]="issueFieldIndex">
+            <div class="form-field">
+              <label class="label-field">Label Name : </label>
+
+              <!-- <mat-form-field [floatLabel]="'never'"> -->
+                
+                <input
+                  autocomplete="off"
+                  matInput
+                  formControlName="labelName"
+                />
+              <!-- </mat-form-field> -->
+            </div>
+            <div class="form-field">
+              <label class="label-field">Type : </label>
+              <!-- <mat-form-field class="form-field" [floatLabel]="'never'" class="dropdown-arrow"> -->
+              <select
+                (onSelect)="onItemSelect($event)"
+                placeholder="Select"
+                formControlName="type"
+                (selectionChange)="changeFieldTypeList($event)"
+              >
+                <option
+                  *ngFor="let type of fieldTypeList; let i = index"
+                  [value]="type.id"
+                >
+                  {{ type.name }}
+                </option>
+              </select>
+              <!-- </mat-form-field> -->
+            </div>
+
+            <div class="form-field margin-auto">
+              <label>Mandatory Field :</label>
+              <mat-slide-toggle #toggleConfigMng [checked]="'false'">
+              </mat-slide-toggle>
+
+              
+              <button
+                class="delete-issue-fields"
+                matTooltip="remove issue field"
+                (click)="removeIssueField(issueFieldIndex)"
+              >
+                Delete
+            </button>
+            </div>
+
+            <div
+              class="form-field"
+              *ngIf="
+                issueField.controls.type.value == 1 ||
+                issueField.controls.type.value == 2 ||
+                issueField.controls.type.value == 3
+              "
+            >
+              <label>Set Maximum Characters:</label>
+              
+                <input
+                  autocomplete="off"
+                  matInput
+                  type="text"
+                  formControlName="maxcharaters"
+                />
+              
+            </div>
+
+            <div
+              class="form-field display-inline"
+              *ngIf="issueField.controls['type'].value == 4"
+            >
+              <input
+                matInput
+                formControlName="dropdownvalue"
+                type="text"
+                class="drop-down-value"
+              />
+              <button
+                (click)="addDropDownValue(issueFieldIndex)"
+                mat-button
+                matTooltip="Add Issue Fields"
+              >
+                Add
+              </button>
+            </div>
+
+          </ng-container>
+        </div>
+        <div
+          class="drop-down-values-section"
+          *ngIf="issueField.controls['type'].value == 4"
+        >
+          <ng-container *ngFor="let drpDown of dropDownvalues">
+            <div class="drop-down-value">
+              {{ drpDown.value }}
+              <button
+                class="delete-drop-down-value"
+                matTooltip="remove issue field"
+              >
+                Remove
+              </button>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</form>

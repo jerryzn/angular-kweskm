@@ -1,0 +1,12 @@
+p {
+  font-family: Lato;
+}
+
+.label-field {
+  width:120px!important;
+}
+
+.form-field {
+display: flex;
+margin: 10px 0;
+}

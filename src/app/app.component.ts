@@ -61,5 +61,6 @@ export class AppComponent implements OnInit {
       value: 'value' + issueFieldIndex,
       id: 1,
     });
+    console.log(this.getIssueFormFields().value);
   }
 }
